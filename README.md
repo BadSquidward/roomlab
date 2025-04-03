@@ -1,42 +1,41 @@
 
-# Interior Synergy - Streamlit Version
+# RoomLab
 
-A Streamlit application for AI-powered interior design services, allowing users to select rooms, generate design options, and create bills of quantities.
+An AI-powered laboratory for transforming interior spaces, enabling users to experiment with room designs, generate creative options, and create detailed specifications.
 
 ## Features
 
-- Room selection for different spaces (living room, bedroom, etc.)
-- Design preference customization
-- AI-generated design options comparison
-- Bill of Quantities (BOQ) generation
-- Mobile-friendly responsive interface
+- Virtual Room Laboratory for different spaces (living room, bedroom, etc.)
+- Design Experimentation & Customization
+- AI-Generated Design Variations
+- Detailed Material Specifications
+- Mobile-Responsive Interface
 
 ## Installation
 
 1. Clone this repository
-2. Install the required packages:
-
+2. Install dependencies:
 ```bash
-pip install -r requirements.txt
+npm install
 ```
 
 3. Run the application:
-
 ```bash
-streamlit run app.py
+npm run dev
 ```
 
 ## Usage
 
-1. **Home Page**: Learn about the application and get started
-2. **Room Selection**: Choose which room you want to design
-3. **Design Generation**: Input your preferences and requirements
-4. **Design Comparison**: View and select from multiple design options
-5. **BOQ Generation**: Get a detailed bill of quantities for your selected design
+1. **Lab Console**: Explore our design laboratory and start experimenting
+2. **Room Selection**: Choose your experimental space
+3. **Design Generation**: Input parameters and requirements
+4. **Design Analysis**: Compare multiple design variations
+5. **Specifications**: Generate detailed material specifications
 
 ## Technologies
 
-- Streamlit
-- Python
-- Pandas for data handling
-- PIL for image processing
+- React
+- TypeScript
+- Tailwind CSS
+- shadcn/ui Components
+- Tanstack Query

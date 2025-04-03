@@ -2,7 +2,7 @@
 import { useLocation, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Flask } from "lucide-react";
 
 const Navbar = () => {
   const location = useLocation();
@@ -25,10 +25,10 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "Design", path: "/room-selection" },
-    { name: "Portfolio", path: "/portfolio" },
-    { name: "Contact", path: "/contact" },
+    { name: "Lab Console", path: "/" },
+    { name: "Experiment", path: "/room-selection" },
+    { name: "Showcase", path: "/portfolio" },
+    { name: "Contact Lab", path: "/contact" },
   ];
 
   return (
@@ -41,7 +41,8 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
         <Link to="/" className="flex items-center space-x-2">
-          <span className="font-serif text-xl font-medium tracking-tight">Interior Synergy</span>
+          <Flask className="h-6 w-6" />
+          <span className="font-serif text-xl font-medium tracking-tight">RoomLab</span>
         </Link>
 
         {/* Desktop menu */}
@@ -58,7 +59,7 @@ const Navbar = () => {
             </Link>
           ))}
           <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
-            Get Started
+            Enter Lab
           </Button>
         </nav>
 
