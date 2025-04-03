@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import DesignLayout from "@/components/DesignLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,13 +20,22 @@ import {
   Loader2, 
   Home, 
   DollarSign, 
-  Paintbrush 
+  Paintbrush,
+  AlertCircle,
+  Token,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useAuth } from "@/hooks/useAuth";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert";
 
 const DesignGeneration = () => {
   const { roomId } = useParams<{ roomId: string }>();
   const navigate = useNavigate();
+  const { user, useDesignToken, isAuthenticated } = useAuth();
   
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -79,8 +88,15 @@ const DesignGeneration = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      toast.error("Please sign in to generate designs");
+      navigate("/login");
+      return;
+    }
     
     // Validation
     if (!formData.dimensions.width || !formData.dimensions.length) {
@@ -93,13 +109,34 @@ const DesignGeneration = () => {
       return;
     }
     
+    // Check if user has tokens
+    if (user && user.tokens <= 0) {
+      toast.error("You need tokens to generate designs");
+      navigate("/tokens");
+      return;
+    }
+    
     setIsLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      // Use a token for this design
+      const success = await useDesignToken();
+      
+      if (!success) {
+        toast.error("You need tokens to generate designs");
+        navigate("/tokens");
+        return;
+      }
+      
+      // Simulate API call
+      setTimeout(() => {
+        setIsLoading(false);
+        navigate(`/design-comparison/${roomId}`);
+      }, 2000);
+    } catch (error) {
+      toast.error("Error generating design");
       setIsLoading(false);
-      navigate(`/design-comparison/${roomId}`);
-    }, 2000);
+    }
   };
 
   return (
@@ -109,6 +146,35 @@ const DesignGeneration = () => {
       showBackButton={true}
     >
       <div className="max-w-3xl mx-auto">
+        {isAuthenticated && user && (
+          <div className="mb-6 flex justify-end">
+            <div className="flex items-center gap-2 bg-muted/50 rounded-full px-4 py-1.5">
+              <Token className="h-4 w-4 text-primary" />
+              <span className="text-sm font-medium">{user.tokens} tokens available</span>
+              {user.tokens <= 1 && (
+                <Button variant="ghost" size="sm" className="h-7 text-xs" asChild>
+                  <Link to="/tokens">Get More</Link>
+                </Button>
+              )}
+            </div>
+          </div>
+        )}
+        
+        {isAuthenticated && user && user.tokens <= 0 && (
+          <Alert className="mb-6">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>No design tokens available</AlertTitle>
+            <AlertDescription>
+              You need tokens to generate designs. Visit the token store to purchase more.
+              <div className="mt-2">
+                <Button size="sm" asChild>
+                  <Link to="/tokens">Purchase Tokens</Link>
+                </Button>
+              </div>
+            </AlertDescription>
+          </Alert>
+        )}
+      
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -248,7 +314,7 @@ const DesignGeneration = () => {
             <Button 
               type="submit" 
               className="w-full" 
-              disabled={isLoading}
+              disabled={isLoading || (isAuthenticated && user?.tokens <= 0)}
             >
               {isLoading ? (
                 <>
@@ -262,6 +328,12 @@ const DesignGeneration = () => {
                 </>
               )}
             </Button>
+            
+            {isAuthenticated && (
+              <div className="text-center text-sm text-muted-foreground">
+                This will use 1 design token from your account
+              </div>
+            )}
           </form>
         </motion.div>
       </div>

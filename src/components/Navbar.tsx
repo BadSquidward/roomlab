@@ -2,12 +2,23 @@
 import { useLocation, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, TestTube } from "lucide-react";
+import { Menu, X, TestTube, Token, User } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
 
 const Navbar = () => {
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, isAuthenticated, logout } = useAuth();
   
   const isHomePage = location.pathname === "/";
 
@@ -57,9 +68,41 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
-          <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
-            Enter Lab
-          </Button>
+          
+          {isAuthenticated ? (
+            <div className="flex items-center space-x-4">
+              <Badge variant="outline" className="flex items-center gap-1 py-1">
+                <Token className="h-4 w-4" />
+                <span>{user?.tokens || 0}</span>
+              </Badge>
+              
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="rounded-full">
+                    <User className="h-5 w-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>{user?.name}</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link to="/portfolio">My Designs</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/tokens">Buy Tokens</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={logout}>
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          ) : (
+            <Button asChild>
+              <Link to="/login">Sign In</Link>
+            </Button>
+          )}
         </nav>
 
         <button 
@@ -89,12 +132,50 @@ const Navbar = () => {
                 {link.name}
               </Link>
             ))}
-            <Button 
-              className="bg-primary text-primary-foreground hover:bg-primary/90 w-full"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Get Started
-            </Button>
+            
+            {isAuthenticated ? (
+              <>
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-sm font-medium">{user?.name}</span>
+                  <Badge variant="outline" className="flex items-center gap-1 py-1">
+                    <Token className="h-4 w-4" />
+                    <span>{user?.tokens || 0}</span>
+                  </Badge>
+                </div>
+                <Link
+                  to="/portfolio"
+                  className="text-sm font-medium transition-colors hover:text-primary py-2 text-muted-foreground"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  My Designs
+                </Link>
+                <Link
+                  to="/tokens"
+                  className="text-sm font-medium transition-colors hover:text-primary py-2 text-muted-foreground"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Buy Tokens
+                </Link>
+                <Button 
+                  variant="ghost"
+                  className="justify-start px-0 font-medium text-sm h-auto py-2"
+                  onClick={() => {
+                    logout();
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <Button 
+                className="w-full"
+                onClick={() => setMobileMenuOpen(false)}
+                asChild
+              >
+                <Link to="/login">Sign In</Link>
+              </Button>
+            )}
           </nav>
         </div>
       )}
