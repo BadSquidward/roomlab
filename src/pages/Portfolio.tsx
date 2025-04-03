@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Eye, Download, Clock, Token } from "lucide-react";
+import { Eye, Download, Clock, Coins } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
@@ -95,7 +95,7 @@ const Portfolio = () => {
         </div>
         <div className="flex items-center gap-4">
           <Badge variant="outline" className="px-4 py-2 text-base flex items-center gap-2">
-            <Token className="h-4 w-4" />
+            <Coins className="h-4 w-4" />
             <span>{user?.tokens || 0} Tokens Available</span>
           </Badge>
           <Button asChild>

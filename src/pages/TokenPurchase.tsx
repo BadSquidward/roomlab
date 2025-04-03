@@ -5,7 +5,7 @@ import DesignLayout from "@/components/DesignLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Check, Token } from "lucide-react";
+import { Check, Coins } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
@@ -66,7 +66,7 @@ const TokenPurchase = () => {
       <div className="mb-8">
         <div className="flex items-center justify-center mb-6">
           <Badge variant="outline" className="px-4 py-2 text-base flex items-center gap-2">
-            <Token className="h-4 w-4" />
+            <Coins className="h-4 w-4" />
             <span>Current Balance: {user?.tokens || 0} Tokens</span>
           </Badge>
         </div>

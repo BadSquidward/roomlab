@@ -22,7 +22,7 @@ import {
   DollarSign, 
   Paintbrush,
   AlertCircle,
-  Token,
+  Coins,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
@@ -149,7 +149,7 @@ const DesignGeneration = () => {
         {isAuthenticated && user && (
           <div className="mb-6 flex justify-end">
             <div className="flex items-center gap-2 bg-muted/50 rounded-full px-4 py-1.5">
-              <Token className="h-4 w-4 text-primary" />
+              <Coins className="h-4 w-4 text-primary" />
               <span className="text-sm font-medium">{user.tokens} tokens available</span>
               {user.tokens <= 1 && (
                 <Button variant="ghost" size="sm" className="h-7 text-xs" asChild>

@@ -2,7 +2,7 @@
 import { useLocation, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, TestTube, Token, User } from "lucide-react";
+import { Menu, X, TestTube, Coins, User } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import {
   DropdownMenu,
@@ -72,7 +72,7 @@ const Navbar = () => {
           {isAuthenticated ? (
             <div className="flex items-center space-x-4">
               <Badge variant="outline" className="flex items-center gap-1 py-1">
-                <Token className="h-4 w-4" />
+                <Coins className="h-4 w-4" />
                 <span>{user?.tokens || 0}</span>
               </Badge>
               
@@ -138,7 +138,7 @@ const Navbar = () => {
                 <div className="flex items-center justify-between py-2">
                   <span className="text-sm font-medium">{user?.name}</span>
                   <Badge variant="outline" className="flex items-center gap-1 py-1">
-                    <Token className="h-4 w-4" />
+                    <Coins className="h-4 w-4" />
                     <span>{user?.tokens || 0}</span>
                   </Badge>
                 </div>
