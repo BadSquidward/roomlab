@@ -1,8 +1,7 @@
-
 import { useLocation, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Flask } from "lucide-react";
+import { Menu, X, TestTube } from "lucide-react";
 
 const Navbar = () => {
   const location = useLocation();
@@ -41,11 +40,10 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
         <Link to="/" className="flex items-center space-x-2">
-          <Flask className="h-6 w-6" />
+          <TestTube className="h-6 w-6" />
           <span className="font-serif text-xl font-medium tracking-tight">RoomLab</span>
         </Link>
 
-        {/* Desktop menu */}
         <nav className="hidden md:flex items-center space-x-8">
           {navLinks.map((link) => (
             <Link
@@ -63,7 +61,6 @@ const Navbar = () => {
           </Button>
         </nav>
 
-        {/* Mobile menu button */}
         <button 
           className="md:hidden focus:outline-none" 
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -76,7 +73,6 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile menu */}
       {mobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 right-0 bg-background border-b border-border p-4 animate-fade-in">
           <nav className="flex flex-col space-y-4 px-2">
